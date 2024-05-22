@@ -23,7 +23,7 @@ class NET:
         async for symbol in self.symbols:
             ohlcv = await client.fetch_ohlcv(symbol=symbol, timeframe=1, limit=1, params={"category": "linear"})[0]
             print(f"{symbol} || {' '.join(ohlcv[2:])}")
-            with open(f"\\sessions\\{self.session_name}\\{symbol}.csv", "a") as file:
+            with open(f"\\sessions\\ohlcv_{self.session_name}\\{symbol}.csv", "a") as file:
                 writer = csv.writer(file)
                 writer.writerow(*ohlcv[2:])
                 file.close()
@@ -35,11 +35,13 @@ class NET:
 
     async def new_ohlcv_session(self):
         os.chdir(".\\sessions")
-        session_name = f"ohlcv_{self.session_name}"
-        os.mkdir(session_name)
-        with open(f".\\sessions\\{session_name}\\settings.txt", "w") as file:
+        os.mkdir(f"ohlcv_{self.session_name}")
+        with open(f".\\sessions\\ohlcv_{self.session_name}\\settings.txt", "w") as file:
             now = datetime.datetime.now()
             file.write(f"symbols={self.symbols}\nstarttime={now}\ntimeframe={self.timeframe}\nlimit={self.limit}")
+            file.close()
+        sched = AsyncIOScheduler()
+        sched.add_job(self.get_ohlcv, trigger="interval", minute=self.timeframe)
             file.close()
         sched = AsyncIOScheduler()
         sched.add_job(self.get_ohlcv, trigger="interval", minute=self.timeframe)
