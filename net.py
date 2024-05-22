@@ -42,6 +42,3 @@ class NET:
             file.close()
         sched = AsyncIOScheduler()
         sched.add_job(self.get_ohlcv, trigger="interval", minute=self.timeframe)
-            file.close()
-        sched = AsyncIOScheduler()
-        sched.add_job(self.get_ohlcv, trigger="interval", minute=self.timeframe)
