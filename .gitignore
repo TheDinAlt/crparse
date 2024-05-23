@@ -1,3 +1,3 @@
-./sessions/
-./.idea
+/sessions/
+/.idea/
 *.log
