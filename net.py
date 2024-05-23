@@ -8,24 +8,19 @@ import logging
 
 
 def setup_logger(name, log_file, level=logging.DEBUG):
-    # Создаем объект логгера
     logger = logging.getLogger(name)
     logger.setLevel(level)
 
-    # Создаем форматтер для форматирования логов
     formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
-    # Создаем обработчик для вывода логов в файл
     file_handler = logging.FileHandler(log_file)
     file_handler.setLevel(level)
     file_handler.setFormatter(formatter)
 
-    # Создаем обработчик для вывода логов в консоль
     console_handler = logging.StreamHandler()
     console_handler.setLevel(level)
     console_handler.setFormatter(formatter)
 
-    # Добавляем обработчики в логгер
     logger.addHandler(file_handler)
     logger.addHandler(console_handler)
 
