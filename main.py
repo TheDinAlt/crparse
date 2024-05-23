@@ -1,4 +1,4 @@
-import asyncio
+import time
 from net import NET
 import utils
 
@@ -7,4 +7,7 @@ n = NET(session_name="test",
         timeframe=1,
         limit=30)
 
-asyncio.run(n.new_ohlcv_session())
+n.new_ohlcv_session()
+
+while True:
+    time.sleep(1)
