@@ -62,7 +62,7 @@ class NET:
         client = ccxt.bybit()
         for symbol in self.symbols:
             ohlcv = client.fetch_ohlcv(symbol=symbol, timeframe=1, limit=1, params={"category": "linear"})[0]
-            info = list(map(str, ohlcv[2:]))
+            info = list(map(str, ohlcv[1:]))
             cprint(f"{symbol} || {' '.join(info)}")
             with open(f"./ohlcv_{self.session_name}/{symbol}.csv", "a") as file:
                 writer = csv.writer(file)
@@ -82,5 +82,5 @@ class NET:
             file.write(f"symbols={self.symbols}\nstarttime={now}\ntimeframe={self.timeframe}\nlimit={self.limit}")
             file.close()
         sched = BackgroundScheduler()
-        sched.add_job(self.get_ohlcv, trigger="interval", seconds=10)
+        sched.add_job(self.get_ohlcv, trigger="interval", minutes=self.timeframe)
         sched.start()
